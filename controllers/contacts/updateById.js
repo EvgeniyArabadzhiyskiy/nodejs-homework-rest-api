@@ -1,15 +1,25 @@
-const { NotFound } = require("http-errors");
-const { contactsOperations } = require("../../models");
+const { BadRequest } = require("http-errors");
 
-const updateById = async (req, res, next) => {
+const Contact = require("../../models/contacts");
+const missingContact = require("./missingContact");
+
+const updateById = async (req, res) => {
   const { contactId } = req.params;
-  const { body } = req;
+  const { favorite } = req.body;
 
-  const result = await contactsOperations.updateContactById(contactId, body);
-  if (!result) {
-    throw new NotFound(`Contact with id=${contactId} Not found`);
+  if (typeof favorite !== "boolean") {
+    throw new BadRequest("missing field favorite or type not boolean");
   }
-  res.json({ status: "success", code: 200, result });
+
+  const result = await Contact.findOneAndUpdate(
+    { _id: contactId },
+    { $set: { favorite } },
+    { new: true }
+  );
+
+  !result && missingContact(contactId);
+
+  res.json({ status: "success", result });
 };
 
 module.exports = updateById;
