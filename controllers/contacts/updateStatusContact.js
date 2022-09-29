@@ -2,11 +2,12 @@ const Contact = require("../../models/contacts");
 const missingContact = require("./missingContact");
 
 const updateStatusContact = async (req, res) => {
-  const { contactId } = req.params;
   const { favorite } = req.body;
+  const { _id: owner } = req.user;
+  const { contactId } = req.params;
 
   const result = await Contact.findOneAndUpdate(
-    { _id: contactId },
+    { _id: contactId, owner },
     { favorite },
     { new: true }
   );
