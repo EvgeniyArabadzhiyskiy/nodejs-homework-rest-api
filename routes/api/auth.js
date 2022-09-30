@@ -12,4 +12,6 @@ router.post("/login", validation(loginSchema), ctrlWrapper(login));
 router.get("/logout", authMiddleware, ctrlWrapper(logout));
 router.get("/current", authMiddleware, ctrlWrapper(currentUser));
 
+// router.get("/verify/:verificationToken", ctrlWrapper(verifycation))
+
 module.exports = router;
