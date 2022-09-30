@@ -3,6 +3,7 @@ const login = require("./login");
 const logout = require("./logout");
 const currentUser = require("./currentUser");
 const verifycation = require("./verifycation");
+const repeatVerify = require("./repeatVerify");
 
 module.exports = {
   registration,
@@ -10,4 +11,5 @@ module.exports = {
   logout,
   currentUser,
   verifycation,
+  repeatVerify,
 };

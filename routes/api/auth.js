@@ -3,7 +3,7 @@ const express = require("express");
 const loginSchema = require("../../schemas/loginSchema");
 const { authMiddleware, validation } = require("../../middlewares");
 const ctrlWrapper = require("../../middlewares/controllerWrepper");
-const { registration, login, logout, currentUser, verifycation } = require("../../controllers/authControllers");
+const { registration, login, logout, currentUser, verifycation, repeatVerify } = require("../../controllers/authControllers");
 
 const router = express.Router();
 
@@ -13,5 +13,6 @@ router.get("/logout", authMiddleware, ctrlWrapper(logout));
 router.get("/current", authMiddleware, ctrlWrapper(currentUser));
 
 router.get("/verify/:verificationToken", ctrlWrapper(verifycation))
+router.post("/repeat/verify", ctrlWrapper(repeatVerify))
 
 module.exports = router;
