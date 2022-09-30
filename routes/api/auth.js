@@ -13,3 +13,5 @@ router.get("/logout", authMiddleware, ctrlWrapper(logout));
 router.get("/current", authMiddleware, ctrlWrapper(currentUser));
 
 module.exports = router;
+
+// hw05-avatars
