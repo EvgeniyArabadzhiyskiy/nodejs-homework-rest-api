@@ -1,6 +1,5 @@
 const path = require("path");
 const multer = require("multer");
-const { nanoid } = require("nanoid");
 
 const FILE_DIR = path.join(__dirname, "../tmp");
 
@@ -9,11 +8,26 @@ const storage = multer.diskStorage({
     cb(null, FILE_DIR);
   },
   filename: function (req, file, cb) {
-    const [name, extension] = file.originalname.split(".");
-    cb(null, `${name}_${nanoid(4)}.${extension}`);
+    cb(null, file.originalname);
   },
 });
 
-const upload = multer({ storage: storage });
+const options = {
+  storage: storage,
+
+  limits: {
+    fileSize: 2048000,
+  },
+
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.includes("image")) {
+      cb(null, true);
+    }
+
+    cb(null, false);
+  },
+};
+
+const upload = multer(options);
 
 module.exports = upload;

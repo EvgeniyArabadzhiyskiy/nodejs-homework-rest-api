@@ -5,6 +5,6 @@ const { ctrlWrapper, upload, authMiddleware } = require("../../middlewares");
 
 const router = express.Router();
 
-router.post("/avatars", upload.single("avatar"), authMiddleware, ctrlWrapper(ctrl.getAvatar));
+router.patch("/avatars", authMiddleware, upload.single("avatar"), ctrlWrapper(ctrl.updateAvatar));
 
 module.exports = router;
