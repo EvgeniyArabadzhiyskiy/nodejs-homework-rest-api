@@ -1,12 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <h1>Hello World</h1>
-</body>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+      integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  <body>
+    <div>
+      <h1 class="title">HELLO WORLD</h1>
+
+      <form class="form-avatar" enctype="multipart/form-data">
+        <input type="file" name="avatar" id="image" />
+        <button type="submit">Submit form</button>
+      </form>
+    </div>
+
+    <script>
+      const form = document.querySelector(".form-avatar");
+      console.log("form", form);
+      form.addEventListener("submit", onFormAvatarSubmit);
+
+      function onFormAvatarSubmit(e) {
+        e.preventDefault();
+
+        const inputAvatar = form.elements.avatar;
+        const searchFile = inputAvatar.files[0];
+
+        const formData = new FormData();
+        formData.append("avatar", searchFile);
+
+        updateAvatar(formData);
+      }
+
+      async function updateAvatar(file) {
+        const options = {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzNiZWY5YTc1NzhmNTRkNzlmNWRkMTkiLCJpYXQiOjE2NjQ4NzIzNjN9.VQuHv3NoHnPCnlryKFTaCPoAJyle1IOcdVEUb1u3MYI",
+          },
+        };
+
+        const { data } = await axios.patch(
+          "http://localhost:8080/users/avatars",
+          file,
+          options
+        );
+
+        // Почему то имменно в этом Index.html форма перезагружается 
+        // А вообще пример полностью рабочий
+        // Нужно пробывать открывать его на другом проэктие в другом порту
+        console.log("updateAvatar:", data.data);
+      }
+    </script>
+  </body>
 </html>
